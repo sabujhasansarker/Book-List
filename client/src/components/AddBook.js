@@ -5,7 +5,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import {
   getAutorsQuery,
   addBookMutation,
-  getBookQuery,
+  getBooksQuery,
 } from "../queries/queries";
 
 const AddBook = () => {
@@ -14,6 +14,7 @@ const AddBook = () => {
     genre: "",
     authorId: "",
   });
+  const [alert, setAlert] = useState("");
   const [addBook] = useMutation(addBookMutation);
   const { loading, error, data } = useQuery(getAutorsQuery);
 
@@ -37,25 +38,45 @@ const AddBook = () => {
     if (name && genre && authorId) {
       addBook({
         variables: { name, genre, authorId },
-        refetchQueries: [{ query: getBookQuery }],
+        refetchQueries: [{ query: getBooksQuery }],
       });
       setFromData({ name: "", genre: "", authorId: "" });
+    } else {
+      setAlert("Fill All Data");
+      setTimeout(() => {
+        setAlert("");
+      }, 3000);
     }
   };
 
   return (
     <form id="add-book" onSubmit={onSubmit}>
+      <h4>{alert}</h4>
       <div className="field">
         <label>Book name:</label>
-        <input type="text" name="name" onChange={(e) => onChange(e)} />
+        <input
+          type="text"
+          name="name"
+          value={fromData.name}
+          onChange={(e) => onChange(e)}
+        />
       </div>
       <div className="field">
         <label>Genre:</label>
-        <input type="text" name="genre" onChange={(e) => onChange(e)} />
+        <input
+          type="text"
+          name="genre"
+          value={fromData.genre}
+          onChange={(e) => onChange(e)}
+        />
       </div>
       <div className="field">
         <label>Author:</label>
-        <select name="authorId" onChange={(e) => onChange(e)}>
+        <select
+          name="authorId"
+          value={fromData.authorId}
+          onChange={(e) => onChange(e)}
+        >
           <option>Select author</option>
           {authors}
         </select>
