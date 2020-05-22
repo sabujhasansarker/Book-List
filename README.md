@@ -1,5 +1,5 @@
 # Book List  [<img  src="https://img.shields.io/badge/%20Book%20list -Live-brightgreen"/>](https://book-list-sabuj.herokuapp.com/)
->Dev connactor
+>Book List
 
 This is my 1st GraphQL  project . 
 
